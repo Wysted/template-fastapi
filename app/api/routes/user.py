@@ -1,8 +1,11 @@
 # FastAPI
 from app.dependencies import fastapi
 from app.dependencies import responses
+
+status = fastapi.status
 # Interfaces
 from app.dependencies import Res
+from app.interfaces.user import User
 # JWT
 from app.dependencies import TokenData, UserTypes
 # Services
@@ -12,11 +15,26 @@ from app.services.users import users_service
 from app.core.config import configuration
 
 router = fastapi.APIRouter(
-    prefix=configuration.default_api,
-    dependencies=[fastapi.Depends(auth_service.is_auth)],
+    prefix=f'{configuration.default_api}/users',
 )
 
-@router.get(
+@router.post(
+    '',
+    response_model=Res[str],
+    response_description='El ID del dato insertado',
+)
+async def register(user: User):
+    inserted_user = users_service.register(user)
+
+    return responses.JSONResponse(
+        status_code=status.HTTP_201_CREATED,
+        content={
+            'success': True,
+            'body': str(inserted_user.id),
+        },
+    )
+
+@router.post(
     '/x',
     response_model=Res[None],
     dependencies=[fastapi.Depends(auth_service.roles([UserTypes.STUDIO_OWNER]))],

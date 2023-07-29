@@ -32,6 +32,3 @@ import fastapi.security as security
 from jose import JWTError, jwt
 # Services
 from app.services.auth import auth_service
-# Routes
-from app.api.routes.example import router as router_example
-

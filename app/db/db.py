@@ -5,4 +5,4 @@ uri = f'{settings.MONGO_CONNECTION}://{settings.MONGO_ROOT_USERNAME}:{settings.M
 if settings.MONGO_CONNECTION != 'mongodb+srv':
     uri += f':{settings.MONGO_PORT}'
 
-uri += f'/{settings.MONGO_DB}'
+uri += f'/{settings.MONGO_DB}?authSource=admin'
