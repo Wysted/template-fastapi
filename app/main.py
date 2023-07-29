@@ -1,5 +1,3 @@
-# Redis
-from app.dependencies import redis
 # Fastapi
 from app.dependencies import fastapi
 from app.dependencies import openapi
@@ -7,11 +5,8 @@ from app.dependencies import responses
 from app.dependencies import exceptions
 # CORS
 from app.dependencies import cors
-# Rate Limiter
-from app.dependencies import limiter
 # Context
 from app.dependencies import plugins, RawContextMiddleware
-# from fastapi_limiter.depends import RateLimiter
 # Routes
 from app.dependencies import router_example
 # Settings & Config
@@ -64,6 +59,7 @@ methods = [
     'POST',
     'PUT',
     'DELETE',
+    'PATCH',
 ]
 
 # Middleware
@@ -81,16 +77,6 @@ app.add_middleware(
         plugins.correlation_id.CorrelationIdPlugin(),
     ),
 )
-
-# Startup
-@app.on_event('startup')
-async def startup():
-    user = settings.REDIS_USER
-    password = settings.REDIS_PASSWORD
-    host = settings.REDIS_HOST
-    port = settings.REDIS_PORT
-    redis_client = redis.from_url(f'redis://{user}:{password}@{host}:{port}')
-    await limiter.FastAPILimiter.init(redis=redis_client)
 
 # Handlers
 @app.exception_handler(exceptions.HTTPException)

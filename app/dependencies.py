@@ -1,5 +1,3 @@
-# Redis
-import redis.asyncio as redis
 # Fastapi
 import fastapi
 import fastapi.openapi.utils as openapi
@@ -15,8 +13,6 @@ import pydantic.generics as generics
 import starlette.exceptions as exceptions
 from starlette_context import context, plugins
 from starlette_context.middleware import RawContextMiddleware
-# RaseLimiter
-import fastapi_limiter as limiter
 # CORS
 import fastapi.middleware.cors as cors
 # Mongo
@@ -38,5 +34,4 @@ from jose import JWTError, jwt
 from app.services.auth import auth_service
 # Routes
 from app.api.routes.example import router as router_example
-# DB
-from app.db.db import db
+

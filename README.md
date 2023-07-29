@@ -1,5 +1,4 @@
-
-# Microservice {name}
+# Server Tatto
 
 ## Requirements
 
@@ -30,26 +29,29 @@ pip3 install -r requirements.txt
 4. Run
 
 ```bash
-sudo docker build --tag microservice_{name} .
-sudo docker run microservice_{name}
+sudo docker compose up app
 ```
 
 ### Docker
 
-`Dockerfile`
+`Dockerfile.dev`
 `Dockerfile.prod`
+
+### DB Model
+
+![Módelo de Base de datos](https://i.postimg.cc/yNkgYwd0/Diagrama-en-blanco.png)
 
 Exposed port (in both Dockerfiles): `6060`
 ## API Reference (Swagger)
 
 #### Swagger ui
 
-```http
-  GET /api/x/docs
+```
+  GET /api/v1/docs
 ```
 
 #### Redoc
 
-```http
-  GET /api/x/redoc
+```
+  GET /api/v1/redoc
 ```

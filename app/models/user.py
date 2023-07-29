@@ -1,5 +1,9 @@
-from app.dependencies import db
+from mongoengine import *
+from app.db.db import uri
 
 USER_COLLECTION = 'users'
 
-user = db.get_collection(USER_COLLECTION)
+connect(host=uri)
+
+class User(Document):
+    email = StringField(required=True, max_length=255)

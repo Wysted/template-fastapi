@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  app:
+    container_name: app
+    build:
+      context: .
+      dockerfile: ./Dockerfile.dev
+    volumes:
+      - ./app/:/code/app
+    ports:
+      - 6060:6060
+    networks:
+      - app_network
+    depends_on:
+      - db
+    env_file:
+      - ./.env
+  db:
+    image: mongo
+    container_name: db
+    environment:
+        - MONGO_INITDB_ROOT_USERNAME=root
+        - MONGO_INITDB_ROOT_PASSWORD=root
+    networks:
+        - app_network
+    volumes:
+      - database:/data/db
+    ports:
+      - 27019:27017
+    restart: unless-stopped
+
+networks:
+  app_network:
+    driver: bridge
+volumes:
+  database:
+    external: false
