@@ -1,9 +1,11 @@
 from enum import Enum
 
+class UserStates(Enum):
+    DISABLED = 'deactivate'
+    ACTIVE = 'active'
+
 class UserTypes(Enum):
-    DIRECTOR = 'f'
-    DIRECTIVE = 'e'
-    TEACHER = 'd'
-    ATTORNEY = 'c'
-    STUDENT_DIRECTIVE = 'b'
-    STUDENT = 'a'
+    ADMIN = 'd'
+    STUDIO_OWNER = 'c'
+    TATTO_ARTIST = 'b'
+    CLIENT = 'a'

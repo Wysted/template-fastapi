@@ -19,7 +19,7 @@ router = fastapi.APIRouter(
 @router.get(
     '/x',
     response_model=Res[None],
-    dependencies=[fastapi.Depends(auth_service.roles([UserTypes.DIRECTOR]))],
+    dependencies=[fastapi.Depends(auth_service.roles([UserTypes.STUDIO_OWNER]))],
 )
 async def get(tokenData: TokenData = fastapi.Depends(auth_service.decode_token)) -> Res:
     users = users_service.get_users()
