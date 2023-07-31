@@ -36,22 +36,21 @@ class Auth():
                 settings.JWT_SECRET_KEY,
                 algorithms=[configuration.jwt_algotithm],
             )
-
             context.setdefault(
                 self.TOKEN_DATA_KEY,
                 TokenData(
-                    user_type=UserTypes(payload.get('user_type')),
-                    id=payload.get('_id'),
-                    sub=payload.get('sub')
+                    user_type=UserTypes(payload['user_type']),
+                    id=payload['id'],
+                    sub=payload['sub']
                 ),
             )
         except JWTError:
             raise self._exception
     
     def roles(self, roles: typing.List[str]):
+        
         def manageRoles():
             tokenData: TokenData = context.data.get(self.TOKEN_DATA_KEY)
-
             if all(role != tokenData.user_type for role in roles):
                 raise self._exception
         return manageRoles
@@ -65,7 +64,7 @@ class Auth():
             expire = datetime.utcnow() + expires_delta
         else:
             expire = datetime.utcnow() + timedelta(minutes=configuration.access_token_expire_minutes)
-        to_encode.update({ 'exp': expire })
+        to_encode.update({ 'exp': expire ,'sub' : "jwtTokenTatto"})
         encoded_jwt = jwt.encode(
             to_encode,
             settings.JWT_SECRET_KEY,
@@ -80,7 +79,6 @@ class Auth():
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail='Email o contraseña no coinciden',
             )
-        
         is_pass = bcrypt.checkpw(
             bytes(auth.password, 'utf-8'),
             bytes(user.password, 'utf-8'),
@@ -102,5 +100,6 @@ class Auth():
                 'role': user.role.value,
             },
         )
+    
 
 auth_service = Auth()

@@ -7,7 +7,6 @@ class User(BaseModel):
     email: str
     password: str
     name: str
-
     def to_model(self):
         return {
             'role': self.role,
@@ -19,3 +18,9 @@ class User(BaseModel):
             'name': self.name,
             'date': datetime.utcnow(),
         }
+
+
+class UserUpdate(BaseModel):
+    method : str
+    data : str
+   

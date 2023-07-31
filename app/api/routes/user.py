@@ -5,7 +5,7 @@ from app.dependencies import responses
 status = fastapi.status
 # Interfaces
 from app.dependencies import Res
-from app.interfaces.user import User
+from app.interfaces.user import User, UserUpdate
 # JWT
 from app.dependencies import TokenData, UserTypes
 # Services
@@ -37,7 +37,8 @@ async def register(user: User):
 @router.post(
     '/x',
     response_model=Res[None],
-    dependencies=[fastapi.Depends(auth_service.roles([UserTypes.STUDIO_OWNER]))],
+    dependencies=[fastapi.Depends(auth_service.is_auth),fastapi.Depends(auth_service.roles([UserTypes.STUDIO_OWNER]))],
+
 )
 async def get(tokenData: TokenData = fastapi.Depends(auth_service.decode_token)) -> Res:
     users = users_service.get_users()
@@ -46,5 +47,23 @@ async def get(tokenData: TokenData = fastapi.Depends(auth_service.decode_token))
         content = {
             'success': True,
             'body': users,
+        }
+    )
+
+# Actualizar datos Email o contraseña
+@router.patch(
+    '/update',
+    response_model=Res[None],
+    dependencies=[fastapi.Depends(auth_service.is_auth)],
+
+)
+async def update(userUpdate : UserUpdate,tokenData: TokenData = fastapi.Depends(auth_service.decode_token)) -> Res:
+    token = tokenData.dict()
+    users_service.update(token['id'],userUpdate)
+    return responses.JSONResponse(
+        status_code=200,
+        content = {
+            'success': True,
+            'body': "good",
         }
     )
