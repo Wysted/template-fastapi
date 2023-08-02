@@ -9,6 +9,8 @@ from app.models.user import User
 # Interfaces
 from app.interfaces.user import UserUpdate,User as UserBody
 
+from app.dependencies import TokenData
+
 class Users():
     def get_by_email(self, email: str) -> User | None:
         return User.objects(email=email).first()
@@ -26,14 +28,14 @@ class Users():
         return User(**user.to_model()).save()
     
 
-    def update(self, id: str, userUpdate: UserUpdate):
+    def update(self, userUpdate: UserUpdate,tokenData : TokenData):
         valid_methods = ['email', 'password']
         if userUpdate.method not in valid_methods:
             raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail='Not a valid method',
             )
-        user = self.get_by_id(id)
+        user = self.get_by_id(tokenData.id)
         if userUpdate.method == 'email':
             user.update(**{userUpdate.method: userUpdate.data})
         else:
