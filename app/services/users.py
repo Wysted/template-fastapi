@@ -8,6 +8,8 @@ status = fastapi.status
 from app.models.user import User
 # Interfaces
 from app.interfaces.user import UserUpdate,User as UserBody
+#State
+from app.interfaces.user_types import UserStates
 
 from app.dependencies import TokenData
 
@@ -54,5 +56,15 @@ class Users():
             ).decode('utf-8')
             user.update(**{userUpdate.method: password})
             return user.reload()
-            
+        
+    #Cambia el estado recibe 
+    def state(self,tokenData: TokenData):
+        user = self.get_by_id(tokenData.id)
+        if user.state == UserStates.ACTIVE:
+            return user.update(**{userUpdate.method: UserStates.DISABLED})
+        elif user.state == UserStates.DISABLED: 
+            return user.update(**{userUpdate.method: UserStates.DISABLED})
+
+        
+
 users_service = Users()
