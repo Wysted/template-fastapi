@@ -63,7 +63,7 @@ class Users():
         if user.state == UserStates.ACTIVE:
             return user.update(**{userUpdate.method: UserStates.DISABLED})
         elif user.state == UserStates.DISABLED: 
-            return user.update(**{userUpdate.method: UserStates.DISABLED})
+            return user.update(**{userUpdate.method: UserStates.ACTIVE})
 
         
 
