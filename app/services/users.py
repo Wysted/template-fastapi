@@ -58,7 +58,7 @@ class Users():
             return user.reload()
         
     #Cambia el estado recibe 
-    def state(self,tokenData: TokenData):
+    def state(self,userUpdate : UserUpdate,tokenData: TokenData):
         user = self.get_by_id(tokenData.id)
         if user.state == UserStates.ACTIVE:
             return user.update(**{userUpdate.method: UserStates.DISABLED})

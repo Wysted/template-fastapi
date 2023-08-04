@@ -76,7 +76,7 @@ async def update(userUpdate : UserUpdate,tokenData: TokenData = fastapi.Depends(
     dependencies=[fastapi.Depends(auth_service.is_auth)],
 
 )
-async def update(tokenData: TokenData = fastapi.Depends(auth_service.decode_token)) -> Res:
+async def update(userUpdate : UserUpdate,tokenData: TokenData = fastapi.Depends(auth_service.decode_token)) -> Res:
     users_service.state(tokenData)
     return responses.JSONResponse(
         status_code=200,

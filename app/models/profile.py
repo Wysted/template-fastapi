@@ -13,3 +13,4 @@ class Profile(Document):
     categories = ReferenceField('Category', required=True)
     nickname = StringField(required=True, max_length=25)
     date = DateField(required=True)
+    
