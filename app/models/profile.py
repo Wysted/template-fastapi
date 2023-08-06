@@ -10,6 +10,7 @@ class Profile(Document):
     description = StringField(required=False, max_length=500)
     avatar = StringField(required=False)
     likes = IntField(min_value=0, default=0)
-    categories = ReferenceField('Category', required=True)
+    categories = ReferenceField('Category', required=False)
     nickname = StringField(required=True, max_length=25)
     date = DateField(required=True)
+    

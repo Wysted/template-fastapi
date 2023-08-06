@@ -8,10 +8,13 @@ status = fastapi.status
 from app.models.user import User
 # Interfaces
 from app.interfaces.user import UserUpdate,User as UserBody
-#State
-from app.interfaces.user_types import UserStates
+from app.interfaces.profile import Profile as ProfileBody
+#User types
+from app.interfaces.user_types import UserStates,UserTypes
 
 from app.dependencies import TokenData
+#Services
+from app.services.profiles import profiles_service
 
 class Users():
     def get_by_email(self, email: str) -> User | None:
@@ -27,7 +30,11 @@ class Users():
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail='Not valid role',
             )
-        return User(**user.to_model()).save()
+        inserted_user = User(**user.to_model()).save()
+
+        if user.role == UserTypes.TATTO_ARTIST.value:
+            profiles_service.createProfile(inserted_user.id,inserted_user.name)
+        return inserted_user.id
     
 
     def update(self, userUpdate: UserUpdate,tokenData : TokenData):
@@ -57,7 +64,7 @@ class Users():
             user.update(**{userUpdate.method: password})
             return user.reload()
         
-    #Cambia el estado recibe 
+    #Cambia el estado recibe  method : state 
     def state(self,userUpdate : UserUpdate,tokenData: TokenData):
         user = self.get_by_id(tokenData.id)
         if user.state == UserStates.ACTIVE:

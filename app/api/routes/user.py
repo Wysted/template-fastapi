@@ -30,7 +30,7 @@ async def register(user: User):
         status_code=status.HTTP_201_CREATED,
         content={
             'success': True,
-            'body': str(inserted_user.id),
+            'body': str(inserted_user),
         },
     )
 
