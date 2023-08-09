@@ -11,6 +11,7 @@ from app.dependencies import plugins, RawContextMiddleware
 from app.api.routes.user import router as user_router
 from app.api.routes.auth import router as auth_router
 from app.api.routes.profile import router as profile_router
+from app.api.routes.category import router as category_router
 # Settings & Config
 from app.dependencies import settings, configuration
 
@@ -95,3 +96,4 @@ def http_exception_handler(request: fastapi.Request, exc):
 app.include_router(user_router)
 app.include_router(auth_router)
 app.include_router(profile_router)
+app.include_router(category_router)

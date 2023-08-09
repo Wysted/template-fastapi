@@ -33,7 +33,7 @@ class Users():
         inserted_user = User(**user.to_model()).save()
 
         if user.role == UserTypes.TATTO_ARTIST.value:
-            profiles_service.createProfile(inserted_user.id,inserted_user.name)
+            profiles_service.create_profile(inserted_user.id,inserted_user.name)
         return inserted_user.id
     
 

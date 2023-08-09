@@ -3,6 +3,9 @@ from app.dependencies import fastapi
 from app.dependencies import responses
 
 status = fastapi.status
+from fastapi import UploadFile
+from typing import Optional
+
 # Interfaces
 from app.dependencies import Res
 from app.interfaces.profile import ProfileUpdate
@@ -28,9 +31,10 @@ router = fastapi.APIRouter(
     dependencies=[fastapi.Depends(auth_service.is_auth),fastapi.Depends(auth_service.roles([UserTypes.TATTO_ARTIST]))],
 
 )
-async def update(profileUpdate: ProfileUpdate,tokenData: TokenData = fastapi.Depends(auth_service.decode_token)) -> Res:
-    profiles_service.updateProfile(profileUpdate,tokenData)
+async def update_profile(profileUpdate: ProfileUpdate,tokenData: TokenData = fastapi.Depends(auth_service.decode_token)) -> Res:
+    profiles_service.update_profile(profileUpdate,tokenData)
     return responses.JSONResponse(
+
         status_code=200,
         content = {
             'success': True,
