@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from typing import List,Optional
 from datetime import datetime
-import bcrypt
+
 
 class Profile(BaseModel):
     user: str 
@@ -19,7 +19,6 @@ class Profile(BaseModel):
 class ProfileUpdate(BaseModel):
     nickname: Optional[str]
     description : Optional[str]
-    avatar : Optional[str]
     categories : Optional[List[str]] 
 
    

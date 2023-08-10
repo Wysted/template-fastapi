@@ -30,7 +30,7 @@ class TmpFile():
         splited = key.split('/')
         self.filename = splited[len(splited) - 1]
         # Path
-        self.path = f'/tmp/files/{uuid.uuid4().hex}{key}'
+        self.path = f'/tmp/files/{uuid.uuid4().hex}_{key}'
         print(self.path)
 
         s3_client.download_file(bucket, key, self.path)

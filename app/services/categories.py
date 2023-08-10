@@ -1,7 +1,6 @@
 # Responses
 import fastapi
 from fastapi.exceptions import HTTPException
-import bcrypt
 
 status = fastapi.status
 # Models
@@ -10,7 +9,6 @@ from app.models.category import Category
 from app.interfaces.category import Category as CategoryBody
 #User types
 
-from app.dependencies import TokenData
 #Services
 
 class Categories():
