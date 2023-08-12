@@ -16,6 +16,14 @@ services:
             - db
         env_file:
             - ./.env
+    redis:
+        image: redis:6.2-alpine
+        ports:
+            - 6379:6379
+        command: redis-server --save 20 1 --loglevel warning --requirepass MDNcVb924a
+        restart: always
+        networks:
+            - app_network
     db:
         image: mongo
         container_name: db
