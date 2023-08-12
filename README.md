@@ -29,7 +29,7 @@ pip3 install -r requirements.txt
 4. Run
 
 ```bash
-sudo docker compose up app
+sudo docker compose up app --attach app
 ```
 
 ### Docker
