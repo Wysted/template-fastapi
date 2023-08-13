@@ -1,7 +1,6 @@
 # FastAPI
 from app.dependencies import fastapi
 from app.dependencies import responses
-
 status = fastapi.status
 from fastapi import UploadFile
 
@@ -54,5 +53,20 @@ async def update_avatar(avatar : UploadFile,tokenData: TokenData = fastapi.Depen
         content = {
             'success': True,
             'body': '',
+        }
+    )
+@router.get(
+    '/{id_profile}',
+    response_model=Res[str],
+    dependencies=[],
+
+)
+async def update_avatar(id_profile : str) -> Res:
+    inserted_profile = profiles_service.get_by_id(id_profile)
+    return responses.JSONResponse(
+        status_code=200,
+        content = {
+            'success': True,
+            'body': inserted_profile
         }
     )

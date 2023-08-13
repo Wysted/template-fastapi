@@ -2,7 +2,8 @@
 import fastapi
 from fastapi.exceptions import HTTPException
 from fastapi import UploadFile
-
+import json
+from bson import json_util
 status = fastapi.status
 
 # Models
@@ -16,16 +17,29 @@ from app.services.files import files_service
 from app.dependencies import TokenData
 
 class Profiles():
-    #Buscar perfil por el user
-    def get_by_id(self, id: str) -> Profile | None:
+    #Buscar perfil por el user id 
+    def get_by_id_user(self, id: str) -> Profile | None:
         return Profile.objects(user=id).first()
+    #Buscar perfil por id 
+    def get_by_id(self, id: str) -> Profile | None:
+        profile = Profile.objects(id=id).first()
+        if profile is not None:
+            user_profile = {
+                "user" : profile.user.id,
+                "nickname" : profile.nickname,
+                "likes" : profile.likes,
+                "categories" : profile.categories,
+                "avatar" : profile.avatar,
+                "date" : str(profile.date)
+            }
+            return json.dumps(user_profile,default=json_util.default)
     #Crea un perfil al crear el usuario de tipo Tatuador b
     def create_profile(self,id : str, name : str) -> Profile:
         user_profile = ProfileBody(user = str(id),nickname = name)
         return Profile(**user_profile.to_model()).save()
     #Actualizar datos nickname, description o categories
     def update_profile(self,profileUpdate: ProfileUpdate,tokenData : TokenData) -> Profile:
-        profile = self.get_by_id(tokenData.id)
+        profile = self.get_by_id_user(tokenData.id)
         if profileUpdate.nickname is not None:
             profile.update(**{"nickname": profileUpdate.nickname})
         if profileUpdate.description is not None:
@@ -48,6 +62,7 @@ class Profiles():
         if profile is not None:
             profile.update(**{"avatar": f"api/{photo}"})
         return
+    
 
 
 
