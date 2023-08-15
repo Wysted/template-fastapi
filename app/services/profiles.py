@@ -21,18 +21,13 @@ class Profiles():
     def get_by_id_user(self, id: str) -> Profile | None:
         return Profile.objects(user=id).first()
     #Buscar perfil por id 
-    def get_by_id(self, id: str) -> Profile | None:
+    def get_by_id(self, id: str, return_json=False) -> Profile | None | str:
         profile = Profile.objects(id=id).first()
-        if profile is not None:
-            user_profile = {
-                "user" : profile.user.id,
-                "nickname" : profile.nickname,
-                "likes" : profile.likes,
-                "categories" : profile.categories,
-                "avatar" : profile.avatar,
-                "date" : str(profile.date)
-            }
-            return json.dumps(user_profile,default=json_util.default)
+
+        if profile is not None and return_json is True:
+            return profile.to_json()
+        return profile
+
     #Crea un perfil al crear el usuario de tipo Tatuador b
     def create_profile(self,id : str, name : str) -> Profile:
         user_profile = ProfileBody(user = str(id),nickname = name)

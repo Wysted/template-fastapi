@@ -62,7 +62,7 @@ async def update_avatar(avatar : UploadFile,tokenData: TokenData = fastapi.Depen
 
 )
 async def update_avatar(id_profile : str) -> Res:
-    inserted_profile = profiles_service.get_by_id(id_profile)
+    inserted_profile = profiles_service.get_by_id(id_profile, return_json=True)
     return responses.JSONResponse(
         status_code=200,
         content = {
