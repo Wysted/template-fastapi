@@ -11,6 +11,5 @@ class Profile(Document):
     avatar = StringField(required=False)
     likes = IntField(min_value=0, default=0)
     categories = ListField(ReferenceField('Category', required=False))
-    nickname = StringField(required=True, max_length=25)
+    nickname = StringField(required=True, max_length=50, unique=True)
     date = DateField(required=True)
-    

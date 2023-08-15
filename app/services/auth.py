@@ -100,6 +100,5 @@ class Auth():
                 'role': user.role.value,
             },
         )
-    
 
 auth_service = Auth()

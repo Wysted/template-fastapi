@@ -2,7 +2,7 @@
 import fastapi
 from fastapi.exceptions import HTTPException
 from fastapi import UploadFile
-import json
+from uuid import uuid4
 from bson import json_util
 status = fastapi.status
 
@@ -30,8 +30,9 @@ class Profiles():
 
     #Crea un perfil al crear el usuario de tipo Tatuador b
     def create_profile(self,id : str, name : str) -> Profile:
-        user_profile = ProfileBody(user = str(id),nickname = name)
+        user_profile = ProfileBody(user = str(id), nickname = f'{name}-{uuid4().hex}')
         return Profile(**user_profile.to_model()).save()
+
     #Actualizar datos nickname, description o categories
     def update_profile(self,profileUpdate: ProfileUpdate,tokenData : TokenData) -> Profile:
         profile = self.get_by_id_user(tokenData.id)
@@ -57,8 +58,5 @@ class Profiles():
         if profile is not None:
             profile.update(**{"avatar": f"api/{photo}"})
         return
-    
-
-
 
 profiles_service = Profiles()

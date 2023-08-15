@@ -3,6 +3,8 @@ from app.dependencies import fastapi
 from app.dependencies import openapi
 from app.dependencies import responses
 from app.dependencies import exceptions
+# Mongoengine
+from mongoengine.errors import MongoEngineException
 # CORS
 from app.dependencies import cors
 # Context
@@ -90,6 +92,16 @@ def http_exception_handler(request: fastapi.Request, exc):
         content = {
             'success': False,
             'message': exc.detail,
+        }
+    )
+
+@app.exception_handler(MongoEngineException)
+def http_exception_handler(request: fastapi.Request, exc):
+    return responses.JSONResponse(
+        status_code=exc.status_code,
+        content = {
+            'success': False,
+            'message': 'Ha ocurrido un error en el servidor',
         }
     )
 
