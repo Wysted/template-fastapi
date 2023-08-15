@@ -21,8 +21,8 @@ class Profiles():
     def get_by_id_user(self, id: str) -> Profile | None:
         return Profile.objects(user=id).first()
     #Buscar perfil por id 
-    def get_by_id(self, id: str, return_json=False) -> Profile | None | str:
-        profile = Profile.objects(id=id).first()
+    def get_by_nick(self, nickname: str, return_json=False) -> Profile | None | str:
+        profile = Profile.objects(nickname=nickname).first()
 
         if profile is not None and return_json is True:
             return profile.to_json()
