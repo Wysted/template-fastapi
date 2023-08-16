@@ -15,6 +15,7 @@ from app.api.routes.auth import router as auth_router
 from app.api.routes.profile import router as profile_router
 from app.api.routes.category import router as category_router
 from app.api.routes.files import router as files_router
+from app.api.routes.tatto import router as tattoos_router
 # Settings & Config
 from app.dependencies import settings, configuration
 
@@ -111,3 +112,4 @@ app.include_router(auth_router)
 app.include_router(profile_router)
 app.include_router(category_router)
 app.include_router(files_router)
+app.include_router(tattoos_router)

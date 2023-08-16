@@ -20,10 +20,9 @@ class Profiles():
     #Buscar perfil por el user id 
     def get_by_id_user(self, id: str) -> Profile | None:
         return Profile.objects(user=id).first()
-    #Buscar perfil por id 
+    #Buscar perfil por nick
     def get_by_nick(self, nickname: str, return_json=False) -> Profile | None | str:
         profile = Profile.objects(nickname=nickname).first()
-
         if profile is not None and return_json is True:
             return profile.to_json()
         return profile
@@ -53,8 +52,15 @@ class Profiles():
         return
     #Cambia el avatar del perfil hay que cambiar el api a lo correcto B), o no?
     def update_avatar (self,file : UploadFile,tokenData : TokenData) -> Profile:
-        profile = self.get_by_id(tokenData.id)
-        photo = files_service.upload_file(f"{profile.user.id}_avatar.png",file)
+        profile = self.get_by_id_user(tokenData.id)
+        type = file.content_type.split("/")[1]
+        valid_type = ["jpg","png"]
+        if type not in valid_type:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail='Not valid type',
+            )
+        photo = files_service.upload_file(f"Avatars/{profile.nickname}_avatar.{type}",file)
         if profile is not None:
             profile.update(**{"avatar": f"api/{photo}"})
         return
