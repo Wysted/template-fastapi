@@ -36,7 +36,8 @@ class Tattoos():
         result = []
         for x in categories:
             if x in inserted_categories:
-                result.append(x)
+                
+                result.append(categories_service.get_by_name(x))
         if len(result) == 0:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
