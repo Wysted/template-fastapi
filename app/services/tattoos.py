@@ -3,6 +3,7 @@ import fastapi
 from fastapi.exceptions import HTTPException
 from fastapi import UploadFile
 status = fastapi.status
+from uuid import uuid4
 
 # Models
 
@@ -43,7 +44,7 @@ class Tattoos():
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail='Not valid categories',
             )
-        photo = files_service.upload_file(f"Tattoos/{profile.nickname}.{type}",file)
+        photo = files_service.upload_file(f"Tattoos/{uuid4().hex}.{type}",file)
         tatto = TattoBody(profile = str(profile.id), image = f"api/{photo}", categories = result)
         return Tatto(**tatto.to_model()).save()
 
