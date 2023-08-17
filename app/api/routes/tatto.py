@@ -29,8 +29,10 @@ router = fastapi.APIRouter(
     dependencies=[fastapi.Depends(auth_service.is_auth),fastapi.Depends(auth_service.roles([UserTypes.TATTO_ARTIST]))],
 
 )
-async def create_tatto(file : UploadFile ,categories : list = Form(...), tokenData: TokenData = fastapi.Depends(auth_service.decode_token)) -> Res:
-    tattoos_service.upload_tatto(file,categories,tokenData)
+async def create_tatto(files : list[UploadFile] ,categories : list = Form(...), tokenData: TokenData = fastapi.Depends(auth_service.decode_token)) -> Res:
+    
+    
+    tattoos_service.upload_tatto(files,categories,tokenData)
     return responses.JSONResponse(
         status_code=200,
         content = {
