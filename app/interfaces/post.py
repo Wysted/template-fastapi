@@ -2,16 +2,16 @@ from pydantic import BaseModel
 from datetime import datetime
 
 
-class Tatto(BaseModel):
+class Post(BaseModel):
     profile: str 
-    image : str
-    categories : list
+    tatto : list
+    content : str
     def to_model(self):
         return {
             'profile': self.profile,
-            'image': self.image,
+            'tatto': self.tatto,
             'likes' : 0,   
-            'categories' : self.categories,
+            'content' : self.content,
             'date': datetime.utcnow(),
         }
 
