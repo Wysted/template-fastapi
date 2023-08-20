@@ -19,6 +19,9 @@ from app.services.profiles import profiles_service
 from app.dependencies import TokenData
 
 class Tattoos():
+    def get_by_id(self,id : str) -> Tatto | None:
+        return Tatto.objects(id=id).first()
+    
     def create_tatto(self,files : list[UploadFile],categories:list, tokenData : TokenData) -> Tatto:
         profile = profiles_service.get_by_id_user(tokenData.id)
         inserted_categories = categories_service.get_categories().only("name").to_json()
