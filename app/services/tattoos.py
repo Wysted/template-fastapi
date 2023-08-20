@@ -21,7 +21,9 @@ from app.dependencies import TokenData
 class Tattoos():
     def get_by_id(self,id : str) -> Tatto | None:
         return Tatto.objects(id=id).first()
-    
+    def get_tattoos_by_profile(self, id : str) -> Tatto :
+        return Tatto.objects(profile=id)
+
     def create_tatto(self,files : list[UploadFile],categories:list, tokenData : TokenData) -> Tatto:
         profile = profiles_service.get_by_id_user(tokenData.id)
         inserted_categories = categories_service.get_categories().only("name").to_json()
@@ -39,7 +41,7 @@ class Tattoos():
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail='Not valid categories',
             )
-        tattos = []
+        tattoos = []
         for file in files:
             type = file.content_type.split("/")[1]
             valid_type = ["jpg","png"]
@@ -51,9 +53,9 @@ class Tattoos():
                 )
             photo = files_service.upload_file(f"Tattoos/{uuid4().hex}.{type}",file)
             tatto = TattoBody(profile = str(profile.id), image = f"api/{photo}", categories = result)
-            tattos.append(Tatto(**tatto.to_model()).save())
+            tattoos.append(Tatto(**tatto.to_model()).save())
         
-        return tattos
+        return tattoos
 
         
 

@@ -42,3 +42,19 @@ async def create_post(files : list[UploadFile] = None ,
         }
     )
 
+@router.get(
+    '/{nickname}',
+    response_model=Res[str],
+    dependencies=[],
+
+)
+async def create_post(nickname: str)     -> Res:
+    inserted_posts = posts_service.get_posts_by_perfil(nickname)    
+    return responses.JSONResponse(
+        status_code=200,
+        content = {
+            'success': True,
+            'body': inserted_posts,
+        }
+    )
+
