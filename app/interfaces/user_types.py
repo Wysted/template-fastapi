@@ -6,6 +6,4 @@ class UserStates(Enum):
 
 class UserTypes(Enum):
     ADMIN = 'd'
-    STUDIO_OWNER = 'c'
-    TATTO_ARTIST = 'b'
     CLIENT = 'a'

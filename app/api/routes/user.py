@@ -52,36 +52,36 @@ async def get(tokenData: TokenData = fastapi.Depends(auth_service.decode_token))
 
 # Actualizar datos Email o contraseña
 #Dejar como /user/update o /update?
-@router.patch(
-    '/update',
-    response_model=Res[None],
-    dependencies=[fastapi.Depends(auth_service.is_auth)],
+# @router.patch(
+#     '/update',
+#     response_model=Res[None],
+#     dependencies=[fastapi.Depends(auth_service.is_auth)],
 
-)
-async def update(userUpdate : UserUpdate,tokenData: TokenData = fastapi.Depends(auth_service.decode_token)) -> Res:
-    users_service.update(userUpdate,tokenData)
-    return responses.JSONResponse(
-        status_code=200,
-        content = {
-            'success': True,
-            'body': '',
-        }
-    )
+# )
+# async def update(userUpdate : UserUpdate,tokenData: TokenData = fastapi.Depends(auth_service.decode_token)) -> Res:
+#     users_service.update(userUpdate,tokenData)
+#     return responses.JSONResponse(
+#         status_code=200,
+#         content = {
+#             'success': True,
+#             'body': '',
+#         }
+#     )
 
-#Actualizar el estado del usuario 
+# #Actualizar el estado del usuario 
 #Dejar como /user/state o /state?
-@router.patch(
-    '/user/state',
-    response_model=Res[None],
-    dependencies=[fastapi.Depends(auth_service.is_auth)],
+# @router.patch(
+#     '/user/state',
+#     response_model=Res[None],
+#     dependencies=[fastapi.Depends(auth_service.is_auth)],
 
-)
-async def update(userUpdate : UserUpdate,tokenData: TokenData = fastapi.Depends(auth_service.decode_token)) -> Res:
-    users_service.state(userUpdate,tokenData)
-    return responses.JSONResponse(
-        status_code=200,
-        content = {
-            'success': True,
-            'body': '',
-        }
-    )
+# )
+# async def update(userUpdate : UserUpdate,tokenData: TokenData = fastapi.Depends(auth_service.decode_token)) -> Res:
+#     users_service.state(userUpdate,tokenData)
+#     return responses.JSONResponse(
+#         status_code=200,
+#         content = {
+#             'success': True,
+#             'body': '',
+#         }
+#     )
