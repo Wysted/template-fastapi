@@ -7,9 +7,9 @@ status = fastapi.status
 # Models
 from app.models.user import User
 # Interfaces
-from app.interfaces.user import UserUpdate,User as UserBody
+from app.interfaces.user import User as UserBody
 #User types
-from app.interfaces.user_types import UserStates,UserTypes
+from app.interfaces.user_types import UserTypes
 
 from app.dependencies import TokenData
 #Services
@@ -23,7 +23,7 @@ class Users():
 
     def register(self, user: UserBody) -> User:
         valid_users = [
-            UserTypes.CLIENT.value,
+            UserTypes.SUBUSER.value,
             UserTypes.ADMIN.value,
         ]
         if user.role not in valid_users:
@@ -41,45 +41,5 @@ class Users():
 
         inserted_user = User(**user.to_model()).save()
 
-        if user.role == UserTypes.TATTO_ARTIST.value:
         return inserted_user.id
-    
-
-    # def update(self, userUpdate: UserUpdate,tokenData : TokenData):
-    #     valid_methods = ['email', 'password']
-    #     if userUpdate.method not in valid_methods:
-    #         raise HTTPException(
-    #         status_code=status.HTTP_400_BAD_REQUEST,
-    #         detail='Not a valid method',
-    #         )
-    #     user = self.get_by_id(tokenData.id)
-    #     if userUpdate.method == 'email':
-    #         user.update(**{userUpdate.method: userUpdate.data})
-    #     else:
-    #         is_pass = bcrypt.checkpw(
-    #             bytes(userUpdate.data, 'utf-8'),
-    #             bytes(user.password, 'utf-8'),
-    #         )
-    #         if is_pass is True:
-    #             raise HTTPException(
-    #                 status_code=status.HTTP_400_BAD_REQUEST,
-    #                 detail='The password must not be the same as the previous one',
-    #             )
-    #         password = bcrypt.hashpw(
-    #             password=bytes(userUpdate.data, 'utf-8'),
-    #             salt=bcrypt.gensalt(),
-    #         ).decode('utf-8')
-    #         user.update(**{userUpdate.method: password})
-    #         return user.reload()
-        
-    # #Cambia el estado recibe  method : state 
-    # def state(self,userUpdate : UserUpdate,tokenData: TokenData):
-    #     user = self.get_by_id(tokenData.id)
-    #     if user.state == UserStates.ACTIVE:
-    #         return user.update(**{userUpdate.method: UserStates.DISABLED})
-    #     elif user.state == UserStates.DISABLED: 
-    #         return user.update(**{userUpdate.method: UserStates.ACTIVE})
-
-        
-
 users_service = Users()
